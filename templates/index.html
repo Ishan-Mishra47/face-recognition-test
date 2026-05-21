@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Face Recognition</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        img {
+            border-radius: 12px;
+            width: 640px;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 10px 30px;
+            border-radius: 8px;
+        }
+        .match { background: #00ff00; color: #000; }
+        .no-match { background: #ff0000; color: #fff; }
+    </style>
+</head>
+<body>
+    <img src="/video_feed">
+    <div id="status" class="no-match">NO MATCH</div>
+
+    <script>
+        setInterval(() => {
+            fetch('/status')
+                .then(res => res.json())
+                .then(data => {
+                    const el = document.getElementById('status');
+                    if (data.match) {
+                        el.textContent = 'MATCH';
+                        el.className = 'match';
+                    } else {
+                        el.textContent = 'NO MATCH';
+                        el.className = 'no-match';
+                    }
+                });
+        }, 1000);
+    </script>
+</body>
+</html>
